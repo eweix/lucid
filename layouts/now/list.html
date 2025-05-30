@@ -1,0 +1,11 @@
+{{ define "main" }}
+  {{ $now := (index .Pages 0) }}
+  <h1>Now</h1>
+  <em
+    >As of
+    <time class="dt-published"
+      >{{ $now.Date.Format "January 2, 2006" }}</time
+    ></em
+  >
+  {{ $now.Content }}
+{{ end }}

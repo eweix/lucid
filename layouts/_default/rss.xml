@@ -1,0 +1,109 @@
+
+{{- $authorEmail := "" }}
+{{- with site.Params.author }}
+  {{- if reflect.IsMap . }}
+    {{- with .email }}
+      {{- $authorEmail = . }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- $authorName := "" }}
+{{- with site.Params.author }}
+  {{- if reflect.IsMap . }}
+    {{- with .name }}
+      {{- $authorName = . }}
+    {{- end }}
+  {{- else }}
+    {{- $authorName  = . }}
+  {{- end }}
+{{- end }}
+
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>
+      {{ if eq .Title .Site.Title }}
+      {{ .Site.Title }}
+      {{ else }}
+      {{ with .Title }}
+      {{ . }} on {{ end }}
+      {{ .Site.Title }}
+      {{ end }}
+    </title>
+    <link>{{ .Permalink }}</link>
+    <description>
+      Recent content 
+      {{ if ne .Title .Site.Title }}
+      {{ with .Title }}in {{ . }} 
+      {{ end }}{{ end }}on 
+      {{ .Site.Title }}
+    </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>{{ site.Language.LanguageCode }}</language>
+
+    {{- with $authorEmail }}
+    <managingEditor>
+      {{.}}
+      {{ with $authorName }} 
+      ({{ . }})
+      {{ end }}
+    </managingEditor>
+    {{ end -}}
+
+    {{- with $authorEmail }}
+    <webMaster>
+      {{ . }}
+      {{ with $authorName }} 
+      ({{ . }})
+      {{ end }}
+    </webMaster>
+    {{ end -}}
+
+    {{- with .Site.Copyright }}
+    <copyright>
+      {{ . }}
+    </copyright>
+    {{ end -}}
+
+    {{- if not .Date.IsZero }}
+    <lastBuildDate>
+      {{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}
+    </lastBuildDate>
+    {{ end -}}
+
+    {{- with .OutputFormats.Get "RSS" }}
+    {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+    {{- end }}
+
+    {{/* always show exactly 1 /now update */}}
+    {{- $now := (where .Site.RegularPages "Section" "now" ) -}}
+    {{- $now = (index $now 0) }}
+    {{- with $now }}
+      <item>
+        <title>What I'm Doing Now: {{ .Date.Format "2006-01-02" }}</title>
+        <link>{{ .Permalink }}</link>
+        <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+        {{- with $authorEmail }}<author>{{ . }}{{ with $authorName }} ({{ . }}){{ end }}</author>{{ end }}
+        <guid>{{ .Permalink }}</guid>
+        {{/* does not work if you use transform.XMLEscape | safeHTML for some reason */}}
+        <description>{{ .Content | html }}</description> 
+      </item>
+    {{- end }}
+
+    {{/* configure page outputs */}}
+    {{- $limit := .Site.Params.rss.limit -}}
+    {{- $pages := (where .Site.RegularPages "Section" "in" site.Params.mainSections) -}}
+    {{- range first $limit $pages -}}
+        <item>
+          <title>{{ .Title }}</title>
+          <link>{{ .Permalink }}</link>
+          <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+          {{- with $authorEmail }}<author>{{ . }}{{ with $authorName }} ({{ . }}){{ end }}</author>{{ end }}
+          <guid>{{ .Permalink }}</guid>
+          {{/* does not work if you use transform.XMLEscape | safeHTML for some reason */}}
+          <description>{{ .Content | html }}</description> 
+        </item>
+      {{- end }}
+  </channel>
+</rss>

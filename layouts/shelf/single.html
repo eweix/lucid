@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <article class="h-review">
+    <h1><a class="u-url p-name" href="{{ .Permalink }}">{{ .Title }}</a></h1>
+    <p>
+      <data class="p-rating" value="{{ .Params.rating }}"> </data>
+    </p>
+    <div class="e-content">
+      {{ .Content }}
+    </div>
+    {{ partial "signature.html" . }}
+  </article>
+{{ end }}

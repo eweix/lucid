@@ -1,0 +1,32 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+
+  <!-- get posts -->
+  {{ $posts := where site.RegularPages "Type" "micro" }}
+
+
+  <!-- group posts by date -->
+  {{ $grouped := $posts.GroupByDate "2006-01-02" }}
+
+
+  <!-- paginate grouped pages -->
+  {{ $paginated := (.Paginate ($grouped)) }}
+
+
+  <!-- range over page groups -->
+  {{ range $paginated.PageGroups }}
+    <!-- range over pagegroup pages -->
+    <ul class="micro-list">
+      {{ range .Pages.Reverse }}
+        <li class="h-entry">
+          <a class="u-url p-name" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+          <time
+            class="dt-published"
+            datetime="{{ .Date.Format "2006-01-02 15:04:05" }}"
+            >{{ .Date.Format "2006-01-02" }}</time
+          >
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+{{ end }}

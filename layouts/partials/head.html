@@ -1,0 +1,20 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>
+  {{ if .IsHome }}
+    {{ site.Title }}
+  {{ else }}
+    {{ printf "%s | %s" .Title site.Title }}
+  {{ end }}
+</title>
+
+<style>
+    {{- with (resources.Get "css/main.css" | minify ) -}}
+        {{- .Content | safeCSS -}}
+    {{- end -}}
+    {{- if .Params.highlight -}}
+        {{- with (resources.Get "css/syntax.css" | minify ) -}}
+            {{- .Content | safeCSS -}}
+        {{- end -}}
+    {{- end -}}
+</style>

@@ -1,0 +1,35 @@
+name = "Lucid"
+license = "MIT"
+licenselink = ""
+description = ""
+homepage = ""
+demosite = ""
+tags = []
+features = []
+min_version = "0.146.0"
+
+[author]
+  name = "Elliott Weix"
+  homepage = "https://github.com/eweix"
+
+
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Posts'
+    pageRef = '/posts'
+    weight = 20
+
+  [[menus.main]]
+    name = 'Tags'
+    pageRef = '/tags'
+    weight = 30
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = '0.146.0'
