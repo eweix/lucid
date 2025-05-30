@@ -1,0 +1,24 @@
+{{ define "main" }}
+  {{ with .Site.Sections }}
+    <ul>
+      {{ range . }}
+        {{ $section := . }}
+        <li>
+          <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          {{ with .Pages }}
+            <ul>
+              {{ range . }}
+                <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+  <ul>
+    {{ range .Site.AllPages }}
+      <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+    {{ end }}
+  </ul>
+{{ end }}

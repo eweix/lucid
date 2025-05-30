@@ -1,0 +1,28 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+
+  {{ $posts := where site.RegularPages "Type" "links" }}
+  {{ $grouped := $posts.GroupByDate "2006-01-02" }}
+  {{ $paginated := (.Paginate ($grouped)) }}
+
+
+  <ul class="link-list">
+    {{ range $paginated.PageGroups }}
+      {{ $time := time.AsTime .Key }}
+      <h2>
+        <time datetime="{{ $time.Format "2006-01-02 15:04:05" }}"
+          >{{ time.Format "January 2, 2006" $time }}</time
+        >
+      </h2>
+      {{ range .Pages.Reverse }}
+        <li class="h-entry">
+          <a class="u-url p-name" href="{{ .Params.RealURL }}">
+            {{ .LinkTitle }}</a
+          >.
+          {{ .Summary }}
+          <a href="{{ .RelPermalink }}">#</a>
+        </li>
+      {{ end }}
+    {{ end }}
+  </ul>
+{{ end }}

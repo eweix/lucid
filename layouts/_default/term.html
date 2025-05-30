@@ -1,0 +1,18 @@
+{{ define "main" }}
+<section class="h-entry">
+<h1><a href="p-name u-url p-category">{{ .Title }}</a></h1>
+  <div class="e-content">
+  {{ .Content }}
+  </div>
+</section>
+<section>
+  <ul class="post-list h-feed">
+  {{ range .Pages }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      <time class="dt-published" datetime='{{ .Date.Format "2006-01-02 15:04:05"
+        }}'>{{ .Date.Format "2006-01-02" }}</time>
+    </li>
+  {{ end }}
+</section>
+{{ end }}

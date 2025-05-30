@@ -1,0 +1,11 @@
+{{/* Iterate through saved links for a page and list them */}}
+{{- with .Scratch.Get "links" | uniq }}
+  <div>
+    <h2>External Links</h2>
+    <ul class="link-list">
+      {{ range . }}
+        <li><a href="{{ . }}">{{ . }}</a></li>
+      {{ end }}
+    </ul>
+  </div>
+{{ end -}}
