@@ -5,7 +5,7 @@
   --mono: "FiraCode Nerd Font", monospace;
 
   /* font sizes */
-  --font-size: 1.125em;
+  --font-size: 1em;
   --h1-size: 1.5em;
   --h2-size: 1.25em;
   --h-size: 1em;
@@ -18,6 +18,10 @@
 
   /* page dimensions */
   --page-width: 42em;
+}
+
+* {
+  padding-bottom: 0px;
 }
 
 html {
@@ -91,6 +95,7 @@ h5,
 h6 {
   font-family: var(--font);
   line-height: 1.5;
+  margin-bottom: 0;
 }
 
 h1 {
@@ -183,12 +188,12 @@ code {
 .book-list li {
   display: grid;
   grid-template-columns: 2fr 1fr 5em;
-  padding: 5px 0;
+  padding: 3px 0;
 }
 
 .post-list li *,
 .book-list li * {
-  white-space: nowrap;
+  white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -216,7 +221,6 @@ a.tag {
 .link-list {
   list-style: none;
   padding-left: 0;
-  font-size: 0.875em;
 }
 
 .link-list li {

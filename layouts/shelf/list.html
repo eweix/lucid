@@ -1,23 +1,27 @@
-
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-{{ .Content }}
-<ul class="h-feed book-list">
-  {{ range .Pages.ByDate.Reverse }}
-  <li class="h-entry">
-    {{ if .Content }}
-    <a class="p-name u-url" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-    {{ else }}
-    <span class="p-name">{{ .LinkTitle }}</span>
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <ul class="h-feed book-list">
+    {{ range (where .Site.RegularPages "Type" "in" (slice "shelf")).GroupByDate "2006" }}
+      <h2>{{ .Key }}</h2>
+      {{ range .Pages.ByDate.Reverse }}
+        <li class="h-entry">
+          {{ if .Content }}
+            <a class="p-name u-url" href="{{ .RelPermalink }}"
+              >{{ .LinkTitle }}</a
+            >
+          {{ else }}
+            <span class="p-name">{{ .LinkTitle }}</span>
+          {{ end }}
+          <span>{{ .Params.authors }}</span>
+          <time
+            class="dt-published"
+            datetime="{{ .Date.Format "2006-01-02 15:04:05" }}"
+          >
+            {{ .Date.Format "2006-01-02" }}
+          </time>
+        </li>
+      {{ end }}
     {{ end }}
-    <span>{{ .Params.authors }}</span>
-  <time 
-      class="dt-published" 
-      datetime="{{ .Date.Format "2006-01-02 15:04:05" }}"
-    >
-      {{ .Date.Format "2006-01-02" }}
-  </time>
-  {{ end }}
-  </li>
-</ul>
+  </ul>
 {{ end }}
