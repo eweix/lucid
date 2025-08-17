@@ -1,12 +1,10 @@
 /* Background */
 .bg {
   color: var(--text);
-  background-color: #fff;
 }
 /* PreWrapper */
 .chroma {
   color: var(--text);
-  background-color: #fff;
 }
 /* Other */
 .chroma .x {
@@ -39,7 +37,6 @@
 }
 /* LineHighlight */
 .chroma .hl {
-  background-color: #e5e5e5;
 }
 /* LineNumbersTable */
 .chroma .lnt {
